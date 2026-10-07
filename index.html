@@ -827,9 +827,11 @@ function openPhotos(o){
     wrap.appendChild(d); PHOTO[ph.draw](c.getContext('2d')); });
   const last=bonusFound.size>=2;
   $('pmClose').textContent= last ? '엔딩 보기 ▶' : '다른 정답도 찾아봐!';
-  $('photoModal').scrollTop=0; $('photoModal').classList.add('on'); burst(10);
+  const pm=$('photoModal'); pm.classList.add('on');
+  // display:none 상태에선 scrollTop이 무시되므로 보이게 한 뒤 맨 위로 올림
+  pm.scrollTop=0; requestAnimationFrame(()=>{ pm.scrollTop=0; }); burst(10);
 }
-$('pmClose').onclick=()=>{ sfx('tap'); $('photoModal').classList.remove('on');
+$('pmClose').onclick=()=>{ sfx('tap'); $('photoModal').scrollTop=0; $('photoModal').classList.remove('on');
   if(bonusFound.size>=2 && state.stage===5){ state.stage=6; save(); renderHUD(); goStage(6); } };
 
 /* ---- pixel photos ---- */
